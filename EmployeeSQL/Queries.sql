@@ -57,13 +57,35 @@ FROM dept_emp, employees, departments
 WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.dept_no = departments.dept_no AND departments.dept_name = 'Sales';
 
 --List each employee in the Sales and Development departments, including their employee number, last name, first name, and department name.
+
+CREATE VIEW development_emp AS 
 SELECT	employees.emp_no,
 		employees.last_name,
 		employees.first_name,
 		departments.dept_name
 		
 FROM dept_emp, employees, departments
-WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.dept_no = departments.dept_no AND departments.dept_name = 'Sales' and'Development';
+WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.dept_no = departments.dept_no AND departments.dept_name = 'Development';
 
+CREATE VIEW sales_emp AS 
+SELECT	employees.emp_no,
+		employees.last_name,
+		employees.first_name,
+		departments.dept_name
+		
+FROM dept_emp, employees, departments
+WHERE dept_emp.emp_no = employees.emp_no AND dept_emp.dept_no = departments.dept_no AND departments.dept_name = 'Sales';
 
+SELECT 	sales_emp.emp_no,
+		sales_emp.last_name,
+		sales_emp.first_name,
+		sales_emp.dept_name,
+		development_emp.dept_name
+		
+FROM sales_emp, development_emp
+WHERE sales_emp.emp_no = development_emp.emp_no;
+
+	
 --List the frequency counts, in descending order, of all the employee last names (that is, how many employees share each last name).
+
+SELECT employees.last_name, count(employees.last_name) FROM employees GROUP BY employees.last_name;
